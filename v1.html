@@ -150,14 +150,35 @@ footer{border-top:1px solid var(--rule);padding-top:22px;font-size:.86rem;color:
   .hint{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* version switcher */
+.vbar{position:sticky;top:0;z-index:20;margin:0 -20px 0;padding:9px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-bottom:1px solid var(--rule);background:var(--card)}
+.vbar .vtag{font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.vbtn{display:inline-flex;align-items:baseline;gap:7px;font-size:.8rem;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid var(--rule);color:var(--muted);background:var(--paper);white-space:nowrap}
+.vbtn b{font-size:.92rem;font-weight:700}
+.vbtn:hover{border-color:var(--ink);color:var(--ink)}
+.vbtn.on{cursor:default}
+.vbtn.on.v2{background:var(--accent);border-color:var(--accent);color:#fff}
+.vbtn.on.v1{background:var(--alt);border-color:var(--alt);color:#fff}
+.vbtn.on:hover{color:#fff}
+.vwhat{font-size:.78rem;color:var(--muted);flex:1 1 100%}
+body.is-v2{border-top:5px solid var(--accent)}
+body.is-v1{border-top:5px solid var(--alt)}
+@media print{.vbar{position:static}}
 </style>
 </head>
-<body>
+<body class="is-v1">
 <div class="wrap">
-<p style="margin:24px 0 0;background:var(--alt-soft);border:1px solid var(--rule);border-radius:4px;padding:10px 14px;font-size:.88rem"><strong>This is version 1</strong>, kept unchanged as reviewed on 26 November 2026. <a href="index.html">Read version 2</a>, revised after that review.</p>
+<div class="vbar">
+  <span class="vtag">You are reading</span>
+  <a class="vbtn" href="index.html"><b>Version 2</b> Revised after your review &middot; 26 Nov 2026</a>
+  <span class="vbtn on v1"><b>Version 1</b> As you reviewed it &middot; 25 Nov 2026</span>
+  <span class="vwhat">This is the version you reviewed, kept unchanged for comparison. The revised proposal is Version 2.</span>
+</div>
+
 
 <header>
-  <div class="eyebrow">Doctoral coursework &middot; Research title proposal</div>
+  <div class="eyebrow">Doctoral coursework &middot; Research title proposal &middot; Version 1</div>
   <h1>A replication and extension in an open and blended university</h1>
   <p class="col" style="font-size:1.05rem;color:var(--muted);margin-top:14px">One title, built on a model published in Arab higher education in 2026, carried into Al-Quds Open University. Every item of the instrument is in print and every original scale paper has been read. <strong>What I ask:</strong> approval of this title, so that work on the theoretical framework can begin.</p>
   <div class="meta">

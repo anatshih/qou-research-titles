@@ -159,10 +159,32 @@ footer{border-top:1px solid var(--rule);padding-top:22px;font-size:.86rem;color:
 .titlecard .lab + .lab{margin-top:18px}
 .oneline{background:var(--accent-soft);border-radius:4px;padding:14px 18px;margin-top:22px;font-size:.95rem;max-width:84ch}
 .v1note{background:var(--alt-soft);border:1px solid var(--rule);border-radius:4px;padding:10px 14px;font-size:.86rem;margin:18px 0 0}
+
+/* version switcher */
+.vbar{position:sticky;top:0;z-index:20;margin:0 -20px 0;padding:9px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-bottom:1px solid var(--rule);background:var(--card)}
+.vbar .vtag{font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.vbtn{display:inline-flex;align-items:baseline;gap:7px;font-size:.8rem;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid var(--rule);color:var(--muted);background:var(--paper);white-space:nowrap}
+.vbtn b{font-size:.92rem;font-weight:700}
+.vbtn:hover{border-color:var(--ink);color:var(--ink)}
+.vbtn.on{cursor:default}
+.vbtn.on.v2{background:var(--accent);border-color:var(--accent);color:#fff}
+.vbtn.on.v1{background:var(--alt);border-color:var(--alt);color:#fff}
+.vbtn.on:hover{color:#fff}
+.vwhat{font-size:.78rem;color:var(--muted);flex:1 1 100%}
+body.is-v2{border-top:5px solid var(--accent)}
+body.is-v1{border-top:5px solid var(--alt)}
+@media print{.vbar{position:static}}
 </style>
 </head>
-<body>
+<body class="is-v2">
 <div class="wrap">
+<div class="vbar">
+  <span class="vtag">You are reading</span>
+  <span class="vbtn on v2"><b>Version 2</b> Revised after your review &middot; 26 Nov 2026</span>
+  <a class="vbtn" href="v1.html"><b>Version 1</b> As you reviewed it &middot; 25 Nov 2026</a>
+  <span class="vwhat">Version 2 answers your six instructions and corrects the three errors you found. Version 1 is kept unchanged so the two can be compared.</span>
+</div>
+
 
 <header>
   <div class="eyebrow">Doctoral coursework &middot; Research proposal &middot; Version 2</div>
@@ -175,7 +197,6 @@ footer{border-top:1px solid var(--rule);padding-top:22px;font-size:.86rem;color:
     <div>Programme <span>PhD, Palestine Polytechnic University</span></div>
     <div>Date <span>26 November 2026</span></div>
   </div>
-  <p class="v1note">Version 1, as you reviewed it, is kept unchanged at <a href="v1.html">v1.html</a>.</p>
 </header>
 
 <section>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research Title Proposal, Version 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f5f7; --card:#ffffff; --ink:#141b24; --muted:#5a6775; --rule:#d8dde3;
+  --accent:#0e5a5e; --accent-soft:#e3efef; --alt:#8a5a1c; --alt-soft:#f6ecdd;
+  --display:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#10151b; --card:#171e26; --ink:#e8edf2; --muted:#9aa7b4; --rule:#2a343f;
+    --accent:#5fb8ba; --accent-soft:#16302f; --alt:#d8a765; --alt-soft:#30261a; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px 72px}
+.col{max-width:68ch}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.2;font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(1.3rem,2.3vw,1.6rem);font-weight:600;line-height:1.25}
+h3{font-size:1.12rem;font-weight:600;line-height:1.3}
+h4{font-size:1rem;font-weight:600}
+p{margin:.7em 0}
+a{color:var(--accent);text-underline-offset:3px}
+
+header{border-bottom:1px solid var(--rule);padding:52px 0 28px;margin-bottom:42px}
+.eyebrow{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:24px;font-size:.9rem;color:var(--muted)}
+.meta div span{color:var(--ink);font-weight:500}
+
+section{margin:0 0 54px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:22px}
+.sec-num{font-family:var(--display);font-size:.95rem;color:var(--muted);font-weight:600}
+
+.titlecard{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--accent);border-radius:4px;padding:28px 30px}
+.titlecard .lab{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.titlecard h3{font-size:1.4rem;line-height:1.35;margin-top:12px}
+.titlecard .sub{font-size:.93rem;color:var(--muted);margin-top:12px}
+.flag{display:inline-block;font-size:.72rem;font-weight:600;color:var(--alt);background:var(--alt-soft);border-radius:3px;padding:2px 8px;letter-spacing:.03em}
+
+.diagram{width:100%;overflow-x:auto;margin-top:8px}
+.diagram svg{display:block;width:100%;height:auto;min-width:372px}
+.node rect{fill:var(--card);stroke:var(--rule);stroke-width:1.4;transition:stroke .15s,fill .15s}
+.node text{font-family:var(--body);font-size:11.5px;fill:var(--ink);font-weight:500}
+.node.hot rect{stroke:var(--accent);stroke-width:2;fill:var(--accent-soft)}
+.node{cursor:pointer}
+.node:focus{outline:none}
+.node:focus-visible rect{stroke:var(--ink);stroke-width:2.4}
+.node.prop rect{stroke:var(--alt);stroke-dasharray:4 3}
+.flow{stroke:var(--muted);stroke-width:1.5;fill:none}
+.flow.dash{stroke-dasharray:5 4}
+.flow.prop{stroke:var(--alt);stroke-dasharray:4 3;stroke-width:1.8}
+.flow.direct{stroke-width:1.2}
+.frame{fill:var(--paper);stroke:var(--rule);stroke-width:1.2}
+.caplabel{font-family:var(--body);font-size:9.5px;fill:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.caplabel.prop{fill:var(--alt)}
+.detail{margin-top:14px;background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:14px 16px;min-height:104px}
+.detail .dh{font-family:var(--display);font-weight:600;font-size:1rem}
+.detail .role{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
+.detail dl{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0;font-variant-numeric:tabular-nums}
+.hint{font-size:.78rem;color:var(--muted);margin-top:8px}
+
+.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:.9rem}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:460px}
+caption{text-align:left;font-size:.8rem;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--rule)}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{font-size:.73rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--paper)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody th{font-weight:500;color:var(--muted)}
+table.audit{min-width:720px}
+.bad{color:var(--alt);font-weight:600}
+.srcnote{font-size:.86rem;color:var(--muted);margin-top:10px;max-width:80ch}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-bottom:26px}
+.stat{background:var(--card);padding:18px 20px}
+.stat .v{font-family:var(--display);font-size:1.7rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat .l{font-size:.78rem;color:var(--muted);margin-top:5px;line-height:1.35}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0;padding:0;list-style:none}
+.chips li{font-size:.8rem;background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:3px 9px;color:var(--muted)}
+.chips li.wb{color:var(--ink)}
+.evgrid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:24px}
+@media(min-width:860px){.evgrid{grid-template-columns:repeat(3,1fr);gap:24px}}
+.ev{border-top:2px solid var(--accent);padding-top:14px}
+.ev h4{margin-bottom:8px}
+.ev p{margin:0;font-size:.92rem}
+.caveat{margin-top:26px;background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--alt);border-radius:4px;padding:18px 20px;font-size:.9rem;max-width:84ch}
+.caveat p{margin:0}
+.caveat p + p{margin-top:8px}
+
+.notes{display:grid;gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.notes .row{background:var(--card);padding:20px 22px}
+.notes h4{font-family:var(--display);font-size:1.06rem;font-weight:600;margin:0 0 8px}
+.notes p{margin:0;font-size:.93rem}
+.notes p + p{margin-top:8px}
+
+.opts{display:grid;grid-template-columns:1fr;gap:18px;margin-top:22px}
+@media(min-width:780px){.opts{grid-template-columns:1fr 1fr}}
+.optbox{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:22px 24px}
+.optbox.rec{border-left:3px solid var(--accent)}
+.optbox .tag{display:inline-block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:10px}
+.optbox.rec .tag{color:var(--accent)}
+.optbox h4{margin-bottom:8px}
+.optbox p{margin:0;font-size:.92rem}
+.optbox p + p{margin-top:8px}
+.optbox .cost{font-size:.84rem;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--rule)}
+
+.chain{width:100%;overflow-x:auto;margin-top:10px}
+.chain svg{display:block;width:100%;height:auto;min-width:620px}
+.cbox rect{fill:var(--card);stroke:var(--rule);stroke-width:1.3}
+.cbox.end rect{stroke:var(--alt);stroke-width:2;fill:var(--alt-soft)}
+.cbox text{font-family:var(--body);font-size:10px;fill:var(--ink)}
+.cbox .s{fill:var(--muted);font-size:9px}
+
+.refgroup{margin-bottom:34px}
+.refgroup > h3{font-size:1.05rem;padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:4px}
+.ref{padding:16px 0;border-bottom:1px solid var(--rule)}
+.ref:last-child{border-bottom:none}
+.ref .cite{font-size:.9rem;line-height:1.5}
+.ref .why{font-size:.86rem;color:var(--muted);margin:6px 0 0}
+.lks{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.lk{display:inline-block;font-size:.76rem;font-weight:500;padding:3px 10px;border-radius:3px;border:1px solid var(--rule);text-decoration:none;color:var(--muted);background:var(--card);white-space:nowrap}
+a.lk:hover{border-color:var(--accent);color:var(--accent)}
+a.lk.open{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+a.lk.local{border-color:var(--alt);color:var(--alt);background:var(--alt-soft)}
+span.lk.wall{border-style:dashed}
+.lkey{font-size:.84rem;color:var(--muted);margin:0 0 26px;max-width:76ch}
+footer{border-top:1px solid var(--rule);padding-top:22px;font-size:.86rem;color:var(--muted);max-width:76ch}
+
+@media print{
+  body{background:#fff}
+  .titlecard,.notes .row,.tablewrap,.optbox,.caveat{break-inside:avoid}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="margin:24px 0 0;background:var(--alt-soft);border:1px solid var(--rule);border-radius:4px;padding:10px 14px;font-size:.88rem"><strong>This is version 1</strong>, kept unchanged as reviewed on 26 November 2026. <a href="index.html">Read version 2</a>, revised after that review.</p>
+
+<header>
+  <div class="eyebrow">Doctoral coursework &middot; Research title proposal</div>
+  <h1>A replication and extension in an open and blended university</h1>
+  <p class="col" style="font-size:1.05rem;color:var(--muted);margin-top:14px">One title, built on a model published in Arab higher education in 2026, carried into Al-Quds Open University. Every item of the instrument is in print and every original scale paper has been read. <strong>What I ask:</strong> approval of this title, so that work on the theoretical framework can begin.</p>
+  <div class="meta">
+    <div>Prepared by <span>Ahmad Awni Al-Natsheh</span></div>
+    <div>Course <span>Organizational Culture and Leadership Capabilities</span></div>
+    <div>Supervisor <span>Dr. Fares Mujahid</span></div>
+    <div>Programme <span>PhD, Palestine Polytechnic University</span></div>
+    <div>Date <span>25 November 2026</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="sec-num">01</span><h2>The title and the model</h2></div>
+  <div class="titlecard">
+    <div class="lab">Proposed title</div>
+    <h3>The Effect of Psychological Safety on Learning Commitment and Innovative Work Behaviour among Employees at Al-Quds Open University: The Mediating Role of Knowledge Sharing and the Moderating Role of Transformational Leadership</h3>
+    <p class="sub">Psychological safety and knowledge sharing are both constructs from inside organizational culture, each with its own validated measure. Transformational leadership enters as the moderator. There are two outcomes, and section 02 explains why.</p>
+
+    <div class="diagram" style="margin-top:24px">
+      <svg viewBox="0 0 480 224" role="img" aria-label="Psychological safety leads to knowledge sharing, and knowledge sharing leads to each of two outcomes, learning commitment and innovative work behaviour. Psychological safety also has a direct path to each outcome. Transformational leadership moderates the path from psychological safety to knowledge sharing, and has a direct path to knowledge sharing. A proposed new path runs from transformational leadership to psychological safety.">
+        <rect class="frame" x="344" y="60" width="132" height="132" rx="5"></rect>
+        <text class="caplabel" x="352" y="73">two outcomes</text>
+        <g class="node hot" tabindex="0" role="button" data-key="ps" aria-label="Psychological safety">
+          <rect x="6" y="106" width="116" height="48" rx="3"></rect>
+          <text x="64" y="126" text-anchor="middle">Psychological</text>
+          <text x="64" y="141" text-anchor="middle">safety</text>
+        </g>
+        <g class="node" tabindex="0" role="button" data-key="ks" aria-label="Knowledge sharing">
+          <rect x="168" y="106" width="116" height="48" rx="3"></rect>
+          <text x="226" y="126" text-anchor="middle">Knowledge</text>
+          <text x="226" y="141" text-anchor="middle">sharing</text>
+        </g>
+        <g class="node" tabindex="0" role="button" data-key="lc" aria-label="Learning commitment">
+          <rect x="352" y="80" width="116" height="42" rx="3"></rect>
+          <text x="410" y="97" text-anchor="middle">Learning</text>
+          <text x="410" y="111" text-anchor="middle">commitment</text>
+        </g>
+        <g class="node" tabindex="0" role="button" data-key="iwb" aria-label="Innovative work behaviour">
+          <rect x="352" y="138" width="116" height="42" rx="3"></rect>
+          <text x="410" y="155" text-anchor="middle">Innovative</text>
+          <text x="410" y="169" text-anchor="middle">work behaviour</text>
+        </g>
+        <g class="node" tabindex="0" role="button" data-key="tl" aria-label="Transformational leadership">
+          <rect x="84" y="14" width="152" height="44" rx="3"></rect>
+          <text x="160" y="32" text-anchor="middle">Transformational</text>
+          <text x="160" y="47" text-anchor="middle">leadership</text>
+        </g>
+        <path class="flow" d="M122 130 H164" marker-end="url(#ar)"></path>
+        <path class="flow" d="M284 130 H340" marker-end="url(#ar)"></path>
+        <path class="flow direct" d="M64 154 V206 Q64 214 72 214 H402 Q410 214 410 206 V196" marker-end="url(#ar)"></path>
+        <text class="caplabel" x="186" y="208">direct</text>
+        <path class="flow direct" d="M226 58 V102" marker-end="url(#ar)"></path>
+        <text class="caplabel" x="232" y="84">direct</text>
+        <path class="flow dash" d="M143 58 V126" marker-end="url(#ar)"></path>
+        <text class="caplabel" x="149" y="84">moderates</text>
+        <path class="flow prop" d="M104 58 Q64 76 64 102" marker-end="url(#arp)"></path>
+        <text class="caplabel prop" x="4" y="74">proposed</text>
+        <text class="caplabel prop" x="4" y="86">path</text>
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor" style="color:var(--muted)"></path>
+          </marker>
+          <marker id="arp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor" style="color:var(--alt)"></path>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="detail" id="dA" aria-live="polite"></div>
+    <p class="hint">Select any box to see its measure. An arrow into the outcomes panel runs to each of the two outcomes. Arrows marked direct are direct effects, tested next to the path through sharing. The dashed grey arrow is the moderation of the path from safety to sharing. The dashed amber arrow is the one path added to the published model; section 07 explains it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">02</span><h2>Why there are two outcomes</h2></div>
+  <p class="col">The five items the published model uses for its outcome do not measure what the model calls them. All five are about training and learning opportunities. Section 06 sets out the evidence, with every original scale paper in hand.</p>
+  <p class="col">So the first outcome is named for what its items measure, and a second outcome is added. That turns a measurement problem into the question the study answers.</p>
+
+  <div class="opts">
+    <div class="optbox rec">
+      <div class="tag">Outcome one</div>
+      <h4>Learning commitment</h4>
+      <p>The published five items, named for what they measure. The original paper is titled for learning commitment and holds no innovation variable at all.</p>
+      <p>This strengthens the model. Edmondson's 1999 paper, which supplies the predictor, is titled <em>Psychological Safety and Learning Behavior in Work Teams</em>. Her construct predicts learning, so the chain from safety, through sharing, to commitment to learning holds end to end. The published model reached for innovation and broke its alignment with its own anchor theory.</p>
+      <p class="cost"><strong>Cost:</strong> nothing. The five items are unchanged.</p>
+    </div>
+    <div class="optbox">
+      <div class="tag">Outcome two</div>
+      <h4>Innovative work behaviour</h4>
+      <p>Nine items from Janssen (2000), whose author validated them for self-report and reported reliability of 0.95. An Arabic standardisation already exists, by Al-Qarni (2022), on five-point frequency anchors at reliability 0.89, and it has since been applied at 0.94.</p>
+      <p>With both outcomes the study answers a question the literature has not, because it has conflated the two: does psychological safety, through knowledge sharing, build commitment to <em>learning</em>, <em>innovative behaviour</em>, or both, and with what relative strength?</p>
+      <p class="cost"><strong>Cost:</strong> nine items and a limited expert review for fit to higher education. The instrument runs to 30 items in total, all on a five-point scale.</p>
+    </div>
+  </div>
+  <p class="srcnote">Commitment to learning, commitment to innovation and innovative work behaviour are three different constructs, and none is treated as interchangeable with another. Whether the two outcomes separate empirically is itself tested, and either answer is reportable.</p>
+  </section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">03</span><h2>The study setting</h2></div>
+  <p class="col">The university is not chosen here because I work in it. It is chosen because it is a kind of organization of its own, and the three facts below are what the model rests on.</p>
+
+  <div class="stats" style="margin-top:24px">
+    <div class="stat"><div class="v">1991</div><div class="l">Began teaching, by a decree of the Palestine Liberation Organization</div></div>
+    <div class="stat"><div class="v">18</div><div class="l">Branches, in every Palestinian governorate</div></div>
+    <div class="stat"><div class="v">33,548</div><div class="l">Students now enrolled</div></div>
+    <div class="stat"><div class="v">165,437</div><div class="l">Graduates since it opened</div></div>
+    <div class="stat"><div class="v">8</div><div class="l">Faculties, with 19 master's and 3 doctoral programmes</div></div>
+    <div class="stat"><div class="v">990</div><div class="l">Staff: 320 academic and 670 administrative. The study population</div></div>
+  </div>
+
+  <div class="evgrid">
+    <div class="ev">
+      <h4>A form of its own</h4>
+      <p>It is the first blended-learning university in the Arab world, and it states its own vision as leadership in blended higher education. It joins printed course material, classroom meetings, face-to-face exams, self-study and e-learning in one system. Its staff work inside a teaching model that regular universities do not have, so findings taken from regular universities cannot simply be carried over.</p>
+    </div>
+    <div class="ev">
+      <h4>Spread is a fact, not a phrase</h4>
+      <p>It was set up to work around the closure of the Palestinian territories, by taking teaching to where students already are. That purpose produced 18 branches in different cities, and the staff of one faculty are spread over them. This is why sharing knowledge here is a matter of structure and not of goodwill, and it is the reason the mediator is worth testing again.</p>
+    </div>
+    <div class="ev">
+      <h4>Scale is enough</h4>
+      <p>With 33,548 students across 18 branches, the staff body is large enough for the sample this model needs, and spread widely enough for differences between regions to mean something. The survey goes to all 18 branches, not to one branch standing for the rest.</p>
+    </div>
+  </div>
+
+  <h4 style="margin-top:34px">The 18 branches</h4>
+  <ul class="chips">
+    <li class="wb">Hebron</li><li class="wb">Yatta</li><li class="wb">Dura</li><li class="wb">Bethlehem</li><li class="wb">Jerusalem</li><li class="wb">Ramallah and Al-Bireh</li><li class="wb">Jericho</li><li class="wb">Salfit</li><li class="wb">Qalqilya</li><li class="wb">Tulkarm</li><li class="wb">Nablus</li><li class="wb">Tubas</li><li class="wb">Jenin</li><li>Gaza</li><li>North Gaza</li><li>Middle Gaza</li><li>Khan Yunis</li><li>Rafah</li>
+  </ul>
+
+  <div class="caveat">
+    <p><strong>The staff figure is not published, so it was obtained directly.</strong> The university publishes student, graduate and branch counts, but no current count of academic and administrative staff. Single studies report 804, 283, 721 and 330 for different groups in different years, because they count different things.</p>
+    <p>The figure above, <strong>990 staff: 320 academic and 670 administrative</strong>, comes from the Human Resources Department. The power analysis in section 08 rests on it, not on an assumption.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">04</span><h2>The source study and what it found</h2></div>
+  <p class="col" style="margin-top:0">Elshanhaby, W., Ahmed, N., Noureldin, A., Leila, M., Abdelmutalib, I., Aboueldahab, M., &amp; Attiea, A. (2026). Unfolding the Relationship Between Psychological Safety, Knowledge Sharing, and Innovation Commitment in Private Higher Education Institutions in Egypt. <em>Administrative Sciences</em>, 16(2), 64.</p>
+  <dl class="facts" style="margin-bottom:24px">
+    <dt>Setting</dt><dd>Six private universities in Cairo, Giza and Alexandria</dd>
+    <dt>Respondents</dt><dd>405 academic and administrative staff</dd>
+    <dt>Sampling</dt><dd>Multi-stage stratified, proportional allocation</dd>
+    <dt>Analysis</dt><dd>PLS-SEM, SmartPLS 4, 5,000 bootstrap resamples. All VIFs below 3</dd>
+    <dt>Language</dt><dd>Run in Arabic after forward and back translation, then reviewed by a panel of subject-matter experts</dd>
+    <dt>Access</dt><dd>Open access, DOI 10.3390/admsci16020064</dd>
+  </dl>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Path coefficients with 95% confidence intervals, as the authors report them.</caption>
+      <thead><tr><th>Path</th><th>&beta;</th><th>95% CI</th><th>Outcome</th></tr></thead>
+      <tbody>
+        <tr><th>Safety &rarr; outcome</th><td class="num">0.430</td><td class="num">0.315, 0.522</td><td>Supported</td></tr>
+        <tr><th>Safety &rarr; sharing</th><td class="num">0.648</td><td class="num">0.578, 0.704</td><td>Supported</td></tr>
+        <tr><th>Sharing &rarr; outcome</th><td class="num">0.405</td><td class="num">0.303, 0.499</td><td>Supported</td></tr>
+        <tr><th>Indirect effect</th><td class="num">0.262</td><td class="num">0.158, 0.338</td><td>Partial mediation</td></tr>
+        <tr><th>Safety &times; leadership</th><td class="num">0.166</td><td class="num">0.098, 0.231</td><td>Supported</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="srcnote"><strong>These are the figures of the Egyptian study. They are not expected results for this one.</strong> They are shown because they tell us the model holds together and the effects are large enough to detect. Explained variance there was 0.497 for knowledge sharing and 0.594 for the outcome. The simple slope from safety to sharing rose from 0.483 to 0.813 as transformational leadership rose.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">05</span><h2>The gap this paper fills</h2></div>
+  <p class="col">The authors end their paper by asking for the model to be tested in other kinds of institution and other countries, and they state that their results may not hold for public universities. Al-Quds Open University meets both points.</p>
+  <p class="col">It adds a third. It is an open and blended university, and its staff work in branches in different cities. Sharing knowledge between people who never meet on one campus is a matter of structure, not of goodwill. So the mediator itself stands under a different kind of pressure than it did in the source study, and that is a theoretical reason to retest it, not only a new population.</p>
+  <p class="col">And a fourth, which came out of reading the original scale papers: three of the four measures in the published model carry names their items do not support. A replication that corrects the naming is a contribution to the measurement literature as well as a test of the model. Section 06 is the evidence.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">06</span><h2>What the published scales actually measure</h2></div>
+  <p class="col" style="margin-top:0">Before any data is collected, all 24 items of the published model were read and every original scale paper obtained. Each line below can be checked against the paper named in it. Nothing here rests on the source study's reproduction of someone else's items.</p>
+
+  <div class="tablewrap" style="margin-top:20px">
+    <table class="audit">
+      <caption>The five scales of the published model, against their originals.</caption>
+      <thead><tr><th>Scale</th><th>Original</th><th>What changed</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr>
+          <th>Psychological safety</th>
+          <td>Edmondson (1999). Seven items, every one referring to <em>this team</em></td>
+          <td>Cut to six. The item dropped is "if you make a mistake on this team, it is often held against you". Referent moved from team to organization</td>
+          <td class="bad">Central item missing from the published model. A 2026 study of higher education staff, Salifu et al., keeps all seven including this one. <strong>This study restores it: seven items</strong></td>
+        </tr>
+        <tr>
+          <th>Knowledge sharing</th>
+          <td>Bock et al. (2005). <strong>Two</strong> constructs: intention to share explicit knowledge, two items, and implicit knowledge, three items. Response anchors ran from "very frequently" to "very rarely"</td>
+          <td>Merged into one four-item factor, one implicit item dropped, anchors changed to agreement</td>
+          <td class="bad">Measures intention, named behaviour</td>
+        </tr>
+        <tr>
+          <th>First outcome</th>
+          <td>Tsai, Yen, Huang &amp; Huang (2007), <em>Journal of World Business</em>. The construct is <strong>learning commitment</strong>, itself adopted from a 1998 paper, validated on 209 employees of a Taiwanese petrochemical company after a downsizing, 72% of them manufacturing and maintenance staff</td>
+          <td>The published model renamed it innovation commitment without changing an item. This study restores the original name</td>
+          <td class="bad">Wrong construct, corrected</td>
+        </tr>
+        <tr>
+          <th>Transformational leadership</th>
+          <td>Podsakoff, MacKenzie, Moorman &amp; Fetter (1990). Six dimensions, each defined as "behaviour on the part of the leader". Built from a 100-item pool, a twelve-expert sorting panel and an 80% agreement rule. Seven-point scale</td>
+          <td>Five items taken by way of Nabi et al. (2023), already worded as "the firm's management". Three of the five sit in one dimension; four of the six have no item. Scale cut to five points</td>
+          <td class="bad">One dimension of six, wrong referent</td>
+        </tr>
+        <tr>
+          <th>Second outcome</th>
+          <td>Janssen (2000), <em>Journal of Occupational and Organizational Psychology</em>. Nine items, three dimensions, validated by its author for both self-report and supervisor report, at 0.95 and 0.96</td>
+          <td>Not in the published model. Added here, in the Arabic version standardised by Al-Qarni (2022), nine items on five-point frequency anchors, reliability 0.89 in that study and 0.94 in Alzubaidi and Alshawat (2023). Two items reworded for an 18-branch university, both documented</td>
+          <td>Added, chain documented</td>
+        </tr>
+        <tr>
+          <th>Digital readiness</th>
+          <td>Cited to Fakhfakh et al. (2025), which measures <strong>Industry 4.0 readiness in Egypt's food and beverage sector</strong></td>
+          <td>The four items ask about searching for academic information and collaborating with classmates. None of them appears in the cited paper</td>
+          <td class="bad">Citation does not support the items</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="srcnote">The source study describes all of this in one sentence: the items were "lightly adapted to the private-HEI work context in Egypt without changing the substantive meaning of the original indicators." Digital readiness is not in this proposal; its effect size in the source study was very small, f&nbsp;squared 0.011.</p>
+
+  <h3 style="margin-top:34px">How the outcome scale travelled</h3>
+  <div class="chain">
+    <svg viewBox="0 0 700 96" role="img" aria-label="The chain of the outcome scale: from Tsai and Huang 1998, to Tsai et al 2007 validated on Taiwanese factory workers, to the Egyptian university study renamed innovation commitment, to this study.">
+      <g class="cbox">
+        <rect x="2" y="24" width="122" height="48" rx="3"></rect>
+        <text x="63" y="43" text-anchor="middle">Tsai &amp; Huang</text>
+        <text x="63" y="57" text-anchor="middle" class="s">1998, the origin</text>
+      </g>
+      <g class="cbox">
+        <rect x="152" y="24" width="150" height="48" rx="3"></rect>
+        <text x="227" y="40" text-anchor="middle">Tsai et al. 2007</text>
+        <text x="227" y="53" text-anchor="middle" class="s">209 Taiwanese factory</text>
+        <text x="227" y="64" text-anchor="middle" class="s">workers. Learning commitment</text>
+      </g>
+      <g class="cbox">
+        <rect x="330" y="24" width="150" height="48" rx="3"></rect>
+        <text x="405" y="40" text-anchor="middle">Elshanhaby et al. 2026</text>
+        <text x="405" y="53" text-anchor="middle" class="s">405 Egyptian university staff</text>
+        <text x="405" y="64" text-anchor="middle" class="s">Renamed innovation commitment</text>
+      </g>
+      <g class="cbox end">
+        <rect x="508" y="24" width="150" height="48" rx="3"></rect>
+        <text x="583" y="43" text-anchor="middle">This study</text>
+        <text x="583" y="57" text-anchor="middle" class="s">named for what it measures</text>
+      </g>
+      <path class="flow" d="M124 48 H148" marker-end="url(#arc)"></path>
+      <path class="flow" d="M302 48 H326" marker-end="url(#arc)"></path>
+      <path class="flow" d="M480 48 H504" marker-end="url(#arc)"></path>
+      <defs>
+        <marker id="arc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="currentColor" style="color:var(--muted)"></path>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+  <p class="srcnote">Its reliability is the highest of the five measures, 0.936. That tells us the items measure one thing tightly, not that they measure the thing in the name. Reliability is not validity.</p>
+
+  <div class="notes" style="margin-top:30px">
+    <div class="row">
+      <h4>What I propose to do about it</h4>
+      <p>Keep the published model as the base, so the replication stays clean, and name each construct for what its items support. Report this audit in the method chapter with the originals cited, and discuss it as a finding about the literature. A replication that finds a measurement problem in the original is a contribution, not a flaw.</p>
+    </div>
+  </div>
+
+  <div class="tablewrap" style="margin-top:20px">
+    <table>
+      <caption>Every change from the published model, in one place. Nothing else changes.</caption>
+      <thead><tr><th>Change</th><th>Items</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><th>First outcome named learning commitment</th><td>0, same five items</td><td>Its items, and the paper they come from, measure commitment to learning, not to innovation</td></tr>
+        <tr><th>Second outcome added: innovative work behaviour</th><td>+9</td><td>Gives the study an innovation outcome measured as such, by Janssen's scale in its Arabic version</td></tr>
+        <tr><th>Edmondson's dropped item restored</th><td>+1</td><td>Seven items can be analysed as seven <em>and</em> as the source study's six, by leaving one out; six can never become seven. The six-item version is reported as a check, so the comparison with the Egyptian study stays item for item</td></tr>
+        <tr><th>Digital readiness dropped</th><td>&minus;4</td><td>Its cited source does not contain its items, and its effect in the source study was very small, f&nbsp;squared 0.011</td></tr>
+        <tr><th>One path added: leadership to safety</th><td>0</td><td>Tested often in the leadership literature, never together with the moderation. Section 07</td></tr>
+        <tr><th>Controls: four regions and length of service</th><td>0, background questions</td><td>Keeps the spread across branches in the model without 17 dummy variables. Section 08</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="srcnote"><strong>What stays the same:</strong> the core paths of the model, the item referent (the whole university), the wording of every kept item, the five-point response scale, and the analysis method. <strong>The instrument goes from 24 items to 30:</strong> 24, minus 4, plus 1, plus 9.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">07</span><h2>Where leadership sits, and the one addition proposed</h2></div>
+  <p class="col" style="margin-top:0">Most of the recent work puts transformational leadership <em>before</em> psychological safety rather than treating it as a moderator. The published model can answer that, and the answer suggests an extension worth making. None of the five studies below carries an interaction term, so none of them tests moderation at all.</p>
+
+  <div class="tablewrap" style="margin-top:20px">
+    <table>
+      <caption>Five studies that order the variables differently. The first is the closest to this setting.</caption>
+      <thead><tr><th>Study</th><th>Design</th><th>What it reports</th></tr></thead>
+      <tbody>
+        <tr><th>Salifu, Andoh, Arthur &amp; Ansong (2026)</th><td><strong>Higher education staff.</strong> PLS-SEM in SmartPLS 4, the same method as this study</td><td>Leadership to safety <strong>0.753</strong>, f&nbsp;squared <strong>1.306</strong>, a large effect. Safety to innovative behaviour 0.448, f&nbsp;squared 0.175. Direct leadership to behaviour only 0.156, f&nbsp;squared 0.023. Indirect through safety <strong>0.337</strong></td></tr>
+        <tr><th>Ansong, Adu, Ansong &amp; Andoh (2025)</th><td>291 employees, Ghanaian manufacturing, SEM</td><td>Leader trustworthiness predicted safety but <strong>not</strong> the behavioural outcome. Safety carried the effect in full</td></tr>
+        <tr><th>Ullah, Yousaf &amp; Naz (2025)</th><td>312 respondents, two waves four weeks apart</td><td>Leadership to safety 0.56. Safety to sharing 0.49. Leadership to sharing 0.21. Indirect effect through safety 0.27</td></tr>
+        <tr><th>Febrianto, Fajriah &amp; Heslina (2026)</th><td>126 employees, SEM</td><td>Leadership had <strong>no</strong> direct effect on the innovation outcome, 0.030, p = 0.794, but did predict sharing at 0.420</td></tr>
+        <tr><th>Integrative review</th><td>14 studies, 2021 to 2024</td><td>The effect of transformational leadership on innovative behaviour is substantially <strong>indirect</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notes" style="margin-top:24px">
+    <div class="row">
+      <h4>The answer the published model already gives</h4>
+      <p>Transformational leadership is in that model as a direct predictor as well as a moderator. Its effect sizes are 0.088 for the main effect and <strong>0.164 for the interaction</strong>. The interaction is the larger of the two. So moderation is not a substitute for the antecedent logic, and the published evidence says the interaction carries more weight.</p>
+    </div>
+    <div class="row">
+      <h4>The addition: leadership to psychological safety</h4>
+      <p>The one path the published model leaves out is leadership to safety, which is exactly what those studies test. The strongest number for it comes from the study closest to this setting: Salifu and colleagues report <strong>0.753</strong> on higher education staff, with an f&nbsp;squared of 1.306, while leadership’s direct effect on the outcome in the same model is only 0.156. Adding the path costs nothing: the same data, the same items, no extra question on the form.</p>
+      <p>With it, the paper tests three things together that no study in this stream has tested together. Whether leadership <em>creates</em> safety. Whether it <em>amplifies</em> the effect of safety on sharing. And whether it reaches sharing <em>directly</em>, independent of safety. The second and third are not in competition: one says leadership builds the condition, the other says leadership makes the condition pay off.</p>
+      <p>Specifying a variable as both an antecedent and a moderator needs care in PLS-SEM. Variance inflation factors will be reported, the interaction term built by the two-stage approach, and both roles justified in the method chapter. All VIFs in the source study were below 3, so collinearity was not a problem there.</p>
+    </div>
+  </div>
+  <p class="srcnote">On Ullah and colleagues and on Febrianto and colleagues: judge the journals before leaning on them. They are cited as evidence that the rival ordering is common. The theoretical argument rests on Salifu and colleagues in <em>Educational Research and Evaluation</em>, on the integrative review, and on Edmondson's own framework.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">08</span><h2>Fieldwork</h2></div>
+  <div class="evgrid" style="grid-template-columns:1fr">
+    <div class="tablewrap">
+      <table>
+        <caption>The plan as it stands. Hypotheses follow once the title is settled.</caption>
+        <tbody>
+          <tr><th>Population</th><td>990 staff across all 18 branches: 320 academic, 670 administrative</td></tr>
+          <tr><th>Item referent</th><td>The whole university, matching the source study</td></tr>
+          <tr><th>Controls</th><td><strong>Region</strong> &mdash; the 18 branches grouped into northern, central and southern West Bank, and Gaza &mdash; and length of service. Eighteen branches would enter as 17 dummy variables and take the predictors on knowledge sharing from five to twenty, destroying the power the sample is designed for. Four regions enter as three dummies, keep the dispersion argument, and add a West Bank against Gaza comparison</td></tr>
+          <tr><th>Distribution</th><td>The whole population of 990, with university approval. Not a drawn sample: at the local response rate, distributing only to 277 would yield about 89</td></tr>
+          <tr><th>Required sample</th><td><strong>277.</strong> Two independent routes converge on it: Cochran's formula with a finite population correction at a 5% margin and 95% confidence, and an a priori power analysis. At 277 the achieved power is <strong>0.98</strong> for an effect of f&nbsp;squared 0.088, the size of the leadership main effect in the source study, and 0.83 for a conservative 0.05</td></tr>
+          <tr><th>Expected yield</th><td>A 2026 study at this university drew 261 responses from a population of 804, a ratio of 32.5%. At that rate a census here returns about 322, clearing 277 with margin</td></tr>
+          <tr><th>Instrument</th><td><strong>30 items</strong>, all on a five-point scale: 7 psychological safety, 4 knowledge sharing, 5 learning commitment, 5 transformational leadership, 9 innovative work behaviour. The safety scale carries all seven of Edmondson’s original items, three of them reverse scored; the behaviour scale uses five-point frequency anchors, following the Arabic standardisation</td></tr>
+          <tr><th>Analysis</th><td>PLS-SEM in SmartPLS, bootstrap resampling, two-stage interaction terms, and HTMT between the two outcomes</td></tr>
+          <tr><th>Group comparison</th><td>Staff category is asked as one question. A proportional yield gives about 90 academic respondents, below the 152 needed to power a full multi-group comparison, so what is reported is a measurement invariance test between the two groups. The full comparison is named in the recommendations</td></tr>
+          <tr><th>Order of work</th><td>Approval and the Arabic instrument, then a pilot on a small group, then the survey across all branches, then the model, then writing</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="caveat">
+    <p><strong>What is open, and what closes each.</strong></p>
+    <p><strong>The staff figure.</strong> Obtained: 990, as above. The power analysis is done. This one is closed.</p>
+    <p><strong>Approval to distribute across branches.</strong> Expected to be straightforward.</p>
+    <p><strong>The Arabic instrument.</strong> The source study was run in Arabic after translation, back-translation and an expert panel. Its corresponding author was asked for that version on 25 November 2026, and a reply is awaited. If it does not arrive, the 24 items are published in English and translation with expert review proceeds without it; the original scales are not the Egyptian authors' property in any case.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">09</span><h2>Sources</h2></div>
+  <p class="lkey">Links marked <strong>Open access</strong> open the full text at once. <strong>PDF in folder</strong> opens the copy saved beside this page, and works when the page is opened from the research folder. <strong>Library access</strong> means a university login is needed; those files are not put online here.</p>
+
+  <div class="refgroup">
+    <h3>The model and its scales</h3>
+    <div class="ref"><div class="cite">Elshanhaby, W., Ahmed, N., Noureldin, A., Leila, M., Abdelmutalib, I., Aboueldahab, M., &amp; Attiea, A. (2026). Unfolding the Relationship Between Psychological Safety, Knowledge Sharing, and Innovation Commitment in Private Higher Education Institutions in Egypt. <em>Administrative Sciences</em>, 16(2), 64.</div><p class="why">The model being carried into the new setting. Appendix A holds all 24 items.</p><div class="lks"><a class="lk open" href="https://doi.org/10.3390/admsci16020064" target="_blank" rel="noopener">Open access</a><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Elshanhaby%20et%20al%202026%20-%20Source%20Study%20-%20Administrative%20Sciences.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Edmondson, A. (1999). Psychological Safety and Learning Behavior in Work Teams. <em>Administrative Science Quarterly</em>, 44(2), 350&ndash;383.</div><p class="why">The original scale. Its appendix holds the seven items, each referring to a team. Note the title: her construct predicts learning.</p><div class="lks"><a class="lk open" href="https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Leadership/Edmondson_1999_Psychological_safety.pdf" target="_blank" rel="noopener">Free copy at MIT</a><a class="lk" href="https://doi.org/10.2307/2666999" target="_blank" rel="noopener">DOI</a><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Edmondson%201999%20-%20Psychological%20Safety%20-%20ASQ.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Bock, G.-W., Zmud, R. W., Kim, Y.-G., &amp; Lee, J.-N. (2005). Behavioral Intention Formation in Knowledge Sharing. <em>MIS Quarterly</em>, 29(1), 87&ndash;111.</div><p class="why">The original sharing scale, which separates intention to share explicit from implicit knowledge, and names the construct for intention.</p><div class="lks"><a class="lk" href="https://aisel.aisnet.org/misq/vol29/iss1/6/" target="_blank" rel="noopener">Journal page</a><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Bock%20et%20al%202005%20-%20Knowledge%20Sharing%20Intention%20-%20MIS%20Quarterly.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Tsai, P. C.-F., Yen, Y.-F., Huang, L.-C., &amp; Huang, I.-C. (2007). A study on motivating employees' learning commitment in the post-downsizing era: Job satisfaction perspective. <em>Journal of World Business</em>, 42(2), 157&ndash;169.</div><p class="why">The source of the five outcome items. The construct is learning commitment, and the validation sample is factory workers after a downsizing.</p><div class="lks"><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Tsai%20et%20al%202007%20-%20Learning%20Commitment%20-%20Journal%20of%20World%20Business.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Janssen, O. (2000). Job demands, perceptions of effort-reward fairness and innovative work behaviour. <em>Journal of Occupational and Organizational Psychology</em>, 73(3), 287&ndash;302.</div><p class="why">The second outcome measure. Nine items, validated by its author for self-report as well as supervisor report.</p><div class="lks"><a class="lk" href="https://doi.org/10.1348/096317900167038" target="_blank" rel="noopener">DOI</a><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Janssen%202000%20-%20Innovative%20Work%20Behaviour%20Scale%20-%20JOOP.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">&#1575;&#1604;&#1602;&#1585;&#1606;&#1610;&#1548; &#1589;&#1575;&#1604;&#1581; &#1576;&#1606; &#1593;&#1604;&#1610; (2022). A structural model investigating the effects of empowering leadership on innovative work behavior through team climate for innovation. <em>Journal of Human Sciences</em>, University of Hail, 5(14), 9&ndash;29.</div><p class="why">The Arabic standardisation of Janssen’s scale, by translation and back-translation. Nine items, five-point frequency anchors from never to always, item-total correlations 0.49 to 0.86, reliability 0.89. Also a census precedent: a population of 722 surveyed in full, 303 responses.</p><div class="lks"><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Alqarni%202022%20-%20Empowering%20Leadership%20and%20IWB%20-%20Arabic%20Janssen%20Scale%20-%20Hail%20Univ.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">&#1575;&#1604;&#1586;&#1576;&#1610;&#1583;&#1610;&#1548; &#1581;&#1605;&#1586;&#1577;&#1548; &#1608;&#1575;&#1604;&#1588;&#1608;&#1575;&#1591;&#1548; &#1601;&#1607;&#1583; (2023). Sustainable leadership among managers of private secondary schools in Jeddah and its relationship to teachers' innovative work behaviour. <em>International Journal of Educational Sciences and Arts</em>, 2(10).</div><p class="why">The Arabic version of Janssen's scale in use: nine items, reliability 0.94, on 1,589 teachers. Its results table prints all nine items in Arabic.</p><div class="lks"><a class="lk open" href="https://doi.org/10.59992/IJESA.2023.v2n10p5" target="_blank" rel="noopener">Open access</a><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Alzubaidi%20and%20Alshawat%202023%20-%20Arabic%20IWB%20Scale%20Applied%20-%20IJESA.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Nabi, M. N., Liu, Z., &amp; Hasan, N. (2023). Examining the nexus between transformational leadership and follower's radical creativity. <em>International Journal of Emerging Markets</em>, 18(10), 4383&ndash;4407.</div><p class="why">Where the five leadership items come from. Its appendix prints them, already worded as "the firm's management", and credits them to Podsakoff et al. (1990).</p><div class="lks"><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Nabi%20et%20al%202023%20-%20Transformational%20Leadership%20and%20Radical%20Creativity.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Podsakoff, P. M., MacKenzie, S. B., Moorman, R. H., &amp; Fetter, R. (1990). Transformational leader behaviors and their effects on followers' trust in leader, satisfaction, and organizational citizenship behaviors. <em>Leadership Quarterly</em>, 1(2), 107&ndash;142.</div><p class="why">The Transformational Leadership Inventory. Six dimensions, each defined as behaviour on the part of a leader; validated on 988 employees of a petrochemical company.</p><div class="lks"><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Podsakoff%20et%20al%201990%20-%20Transformational%20Leadership%20Inventory%20-%20Leadership%20Quarterly.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Fakhfakh, A., Salaheldin, S., Noureldin, A., Aboueldahab, M., &amp; Elwakeel, N. (2025). Manufacturing ambidexterity and sustainable excellence: The moderated mediation of Industry 4.0 readiness in Egypt's food and beverage sector. <em>International Journal of Industrial Engineering &amp; Production Research</em>, 36(1), 116&ndash;134.</div><p class="why">Cited in the source study for a digital readiness scale. It measures Industry 4.0 readiness in food and beverage factories and holds none of those items. The construct is not in this proposal.</p><div class="lks"><a class="lk open" href="https://doi.org/10.22068/ijiepr.36.1.2230" target="_blank" rel="noopener">Open access</a><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Fakhfakh%20et%20al%202025%20-%20Industry%204.0%20Readiness%20-%20Egypt%20Food%20and%20Beverage.pdf">PDF in folder</a></div></div>
+  </div>
+
+  <div class="refgroup">
+    <h3>Where leadership sits in the literature</h3>
+    <div class="ref"><div class="cite">Salifu, I., Andoh, R. P. K., Arthur, F., &amp; Ansong, A. (2026). Innovative behaviour of higher education staff: examination of the influences of inclusive leadership, psychological safety and employee autonomy. <em>Educational Research and Evaluation</em>, 31(1&ndash;2), 95&ndash;119.</div><p class="why">The closest published study to this setting. Higher education staff, PLS-SEM in SmartPLS 4, Edmondson’s seven items including the one the source study dropped, and Janssen’s nine items for the outcome. Leadership to safety 0.753, f&nbsp;squared 1.306.</p><div class="lks"><a class="lk" href="https://doi.org/10.1080/13803611.2025.2556055" target="_blank" rel="noopener">DOI</a><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Salifu%20et%20al%202026%20-%20Inclusive%20Leadership%20PS%20and%20IWB%20in%20Higher%20Education%20-%20ERE.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Ansong, A., Adu, P., Ansong, L. O., &amp; Andoh, R. P. K. (2025). Leader trustworthiness and intrapreneurial behaviour in the manufacturing industry: the roles of psychological safety and psychological availability. <em>International Journal of Productivity and Performance Management</em>, 74(5), 1700&ndash;1716.</div><p class="why">291 employees in five Ghanaian manufacturing firms. Leader trustworthiness reached the behavioural outcome only through psychological safety and psychological availability, both full mediators.</p><div class="lks"><span class="lk wall">Library access</span><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Ansong%20et%20al%202025%20-%20Leader%20Trustworthiness%20and%20Intrapreneurial%20Behaviour%20-%20PS%20Mediator%20-%20IJPPM.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Ullah, N., Yousaf, A., &amp; Naz, S. (2025). Psychological Safety as a Pathway Linking Transformational Leadership to Knowledge Sharing. <em>ACADEMIA International Journal for Social Sciences</em>, 4(4), 6487&ndash;6501.</div><p class="why">312 respondents, two waves four weeks apart. Treats safety as the mediator of leadership. Also the source of the length-of-service control.</p><div class="lks"><a class="lk open" href="https://doi.org/10.63056/academia.4.4.2025.1482" target="_blank" rel="noopener">Open access</a><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Ullah%20et%20al%202025%20-%20Psychological%20Safety%20as%20Mediator.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Febrianto, B., Fajriah, Y., &amp; Heslina (2026). The Effect of Transformational Leadership and Psychological Safety on Innovative Work Behavior Through Knowledge Sharing. <em>Jurnal Economina</em>, 5(10).</div><p class="why">126 employees. Leadership had no direct effect on the innovation outcome, but did predict sharing.</p><div class="lks"><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Febrianto%20et%20al%202026%20-%20TL%20and%20PS%20on%20Innovative%20Work%20Behavior.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Saif, N., et al. (2024). Knowledge sharing as a mediator in higher education, with transformational leadership as an antecedent. <em>Heliyon</em>.</div><p class="why">Comparable evidence from higher education for the antecedent ordering.</p><div class="lks"><a class="lk open" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11200340/" target="_blank" rel="noopener">Open access</a><a class="lk" href="https://doi.org/10.1016/j.heliyon.2024.e32280" target="_blank" rel="noopener">DOI</a></div></div>
+    <div class="ref"><div class="cite">Integrative literature review: Transformational Leadership and Psychological Safety as Predictors of Employee Innovation. Unpublished manuscript.</div><p class="why">Fourteen studies from 2021 to 2024. Finds the effect of leadership to be substantially indirect.</p><div class="lks"><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Literature%20Review%20-%20TL%20and%20PS%20as%20Predictors%20of%20Employee%20Innovation.docx">File in folder</a></div></div>
+  </div>
+
+  <div class="refgroup">
+    <h3>Palestinian context</h3>
+    <div class="ref"><div class="cite">Al-Badawi, B. E., &amp; Salehah, M. O. (2021). The role of knowledge management in achieving higher education quality at Al-Quds University from the academics' perspective. <em>Arab Journal for Quality Assurance in Higher Education</em>, 14(47).</div><p class="why">150 academics. Knowledge sharing was the component with a significant effect on quality. Note this is Al-Quds University, a different institution from Al-Quds Open University. Its method is descriptive, with no path model, which is the methodological gap this study fills.</p><div class="lks"><a class="lk open" href="https://doi.org/10.20428/AJQAHE.14.47.1" target="_blank" rel="noopener">Open access</a><a class="lk local" href="../Title%201%20-%20Psychological%20Safety%20and%20Knowledge%20Sharing/Papers/Al-Badawi%20and%20Salehah%202021%20-%20Knowledge%20Management%20at%20Al-Quds%20University.pdf">PDF in folder</a></div></div>
+    <div class="ref"><div class="cite">Abu Zahra, A., Musleh, A., &amp; Attiea (2026). The Mediating Role of Organizational Values in the Relationship between Transformational Leadership and Strategic Performance at Al-Quds Open University.</div><p class="why">The precedent for reach: 261 responses from a population of 804 at this university.</p><div class="lks"></div></div>
+    <div class="ref"><div class="cite">Al-Quds Open University. Official website: enrolment, graduate and branch counts, and the university's own account of its founding and its blended learning system. Figures read 24 November 2026.</div><p class="why">The source of every figure in the study setting section.</p><div class="lks"><a class="lk" href="https://www.qou.edu/en/indexEnPage.do" target="_blank" rel="noopener">qou.edu</a></div></div>
+  </div>
+</section>
+
+<footer>
+  <p>Behind this page sit the full reading notes for every source listed: every item with its reliability figures, the item-by-item audit of the five scales against their originals, the rival specification worked out in full, and the complete reference list with links. Any of it can be put in front of you on request.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var data = {
+    ps:{name:"Psychological safety",role:"Independent variable",scale:"Edmondson (1999)",items:"All 7 original items, 5-point Likert",alpha:"0.890 reported on the six-item version",note:"Three items are reverse scored. The source study dropped the item about mistakes being held against you; it is restored here, so the six-item version can still be reported as a robustness check."},
+    ks:{name:"Knowledge sharing",role:"Mediator",scale:"Bock et al. (2005)",items:"4 items, drawn from two separate constructs in the original",alpha:"0.867",note:"Every item is worded as future intention to share, and all four concern giving rather than seeking."},
+    lc:{name:"Learning commitment",role:"First outcome",scale:"Tsai, Yen, Huang and Huang (2007)",items:"5 items, 5-point agreement",alpha:"0.936",note:"All five items are about training and continuous learning. Named here for what they measure."},
+    iwb:{name:"Innovative work behaviour",role:"Second outcome",scale:"Janssen (2000), Arabic version standardised by Al-Qarni",items:"9 items, 5-point frequency from never to always",alpha:"0.95 English original, 0.89 Arabic standardisation, 0.94 Arabic application",note:"Three items each for idea generation, promotion and realization. Self-report is the author's own validated use."},
+    tl:{name:"Transformational leadership",role:"Moderator",scale:"Nabi, Liu and Hasan (2023), credited to Podsakoff et al. (1990)",items:"5 items, 5-point Likert",alpha:"0.910",note:"Moderates the path from safety to sharing. Three of the five items sit in one of the inventory's six dimensions, and all refer to top management."}
+  };
+  function render(key){
+    var d=data[key], el=document.getElementById("dA"), rows="";
+    if(d.scale){rows+="<dt>Scale</dt><dd>"+d.scale+"</dd>"}
+    if(d.items){rows+="<dt>Items</dt><dd>"+d.items+"</dd>"}
+    if(d.alpha){rows+="<dt>Alpha</dt><dd>"+d.alpha+"</dd>"}
+    if(d.note){rows+="<dt>Note</dt><dd>"+d.note+"</dd>"}
+    el.innerHTML='<div class="role">'+d.role+'</div><div class="dh">'+d.name+'</div><dl>'+rows+'</dl>';
+  }
+  var nodes=document.querySelectorAll('.node[data-key]');
+  Array.prototype.forEach.call(nodes,function(n){
+    function pick(){
+      Array.prototype.forEach.call(nodes,function(m){m.classList.remove("hot")});
+      n.classList.add("hot");
+      render(n.getAttribute("data-key"));
+    }
+    n.addEventListener("click",pick);
+    n.addEventListener("keydown",function(e){
+      if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}
+    });
+  });
+  render("ps");
+
+  // The "PDF in folder" links are relative paths into the research folder.
+  // They only resolve when the page is opened from there, so hide them elsewhere
+  // rather than show the reader a broken link.
+  if (window.location.protocol !== "file:") {
+    Array.prototype.forEach.call(document.querySelectorAll("a.lk.local"), function(a){
+      a.style.display = "none";
+    });
+    var k = document.querySelector(".lkey");
+    if (k) {
+      k.innerHTML = 'Links marked <strong>Open access</strong> open the full text at once. '
+        + '<strong>Library access</strong> means a university login is needed. '
+        + 'Every paper is also saved as a file beside this page in the research folder.';
+    }
+  }
+})();
+</script>
+</body>
+</html>

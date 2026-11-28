@@ -174,6 +174,16 @@ footer{border-top:1px solid var(--rule);padding-top:22px;font-size:.86rem;color:
 body.is-v2{border-top:5px solid var(--accent)}
 body.is-v1{border-top:5px solid var(--alt)}
 @media print{.vbar{position:static}}
+
+.calc{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:4px;padding:20px 22px;margin-top:18px}
+.calc h4{font-family:var(--display);font-size:1.04rem;margin:0 0 10px}
+.calc h4 + p{margin-top:0}
+.calc p{font-size:.92rem}
+.eq{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86rem;background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:10px 14px;margin:10px 0;overflow-x:auto;white-space:pre;line-height:1.5}
+.calc dl{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:.88rem}
+.calc dt{color:var(--muted)}
+.calc dd{margin:0;font-variant-numeric:tabular-nums}
+.calc hr{border:none;border-top:1px solid var(--rule);margin:18px 0}
 </style>
 </head>
 <body class="is-v2">
@@ -461,6 +471,54 @@ body.is-v1{border-top:5px solid var(--alt)}
     </table>
   </div>
   <p class="col"><strong>What this means.</strong> The official figure is larger than the estimate used in version 1, and that helps. A census of the 1,126 staff at work needs a response rate of <strong>35%</strong> to detect a small interaction, where the earlier estimate of 990 needed about 40%. Al-Qarni's census through official channels reached 42%, which would give power of 0.87 here. The threshold is reachable, not guaranteed, so the plan stands: an official endorsement from the university, one coordinator in each region, and two reminders in each wave. The actual response rate is reported, for academic and administrative staff separately, and early and late respondents are compared as a check for non-response bias. Matched responses across both waves support the full model at about 331 if Wave 1 reaches 42% and 70% of those respondents return.</p>
+
+  <div class="calc">
+    <h4>How these numbers were produced</h4>
+    <p>The hypothesis that decides this study is the moderation, so the power analysis is for a <strong>single coefficient</strong>, not for the model as a whole: the coefficient of the interaction in the regression of knowledge sharing on its eight predictors. That fixes the degrees of freedom.</p>
+    <dl>
+      <dt>Numerator df</dt><dd>1, one coefficient tested</dd>
+      <dt>Denominator df</dt><dd>N &minus; k &minus; 1, with k = 8 predictors</dd>
+      <dt>Significance</dt><dd>0.05</dd>
+      <dt>Target power</dt><dd>0.80</dd>
+    </dl>
+    <p>This is why adding the fifth workplace category changed nothing: it raises k by one, which moves the denominator degrees of freedom by one, not the sample needed.</p>
+
+    <p><strong>The effect size</strong> is Cohen's f&nbsp;squared, the share of unexplained variance the interaction accounts for:</p>
+    <div class="eq">f² = (R²_full − R²_reduced) / (1 − R²_full)</div>
+    <p>Cohen's conventions are 0.02 small, 0.15 medium, 0.35 large. Interactions in field data sit at or below the small end, so <strong>0.02 is the figure the design is built on</strong>, and the larger effect in the Egyptian study is reported only as a comparison.</p>
+
+    <p><strong>Power</strong> comes from the non-central F distribution, with non-centrality &lambda;:</p>
+    <div class="eq">λ = f² × N
+
+power = 1 − F_cdf( F_crit ; df1, df2, λ )     F_crit = F₀.₉₅(df1, df2)</div>
+
+    <p><strong>Worked example, the row the design rests on.</strong> f&nbsp;squared = 0.02, N = 395, k = 8:</p>
+    <dl>
+      <dt>df1</dt><dd>1</dd>
+      <dt>df2 = N &minus; k &minus; 1</dt><dd>386</dd>
+      <dt>&lambda; = 0.02 &times; 395</dt><dd>7.90</dd>
+      <dt>F critical at 0.05</dt><dd>3.866</dd>
+      <dt>Power</dt><dd><strong>0.801</strong></dd>
+    </dl>
+    <p>At N = 394 power is 0.800 and at N = 396 it is 0.802, so 395 is the smallest sample that reaches the convention. The other rows follow the same way: f&nbsp;squared 0.164 gives 51, and 0.05 gives 160.</p>
+
+    <hr>
+    <p><strong>A second check, specific to PLS-SEM.</strong> Regression power analysis is an approximation for a PLS model, so the inverse square root method of Kock and Hadaya (2018) is reported beside it. For 5% significance and 80% power, with p the smallest path expected to be significant:</p>
+    <div class="eq">N > ( 2.486 / |p| )²
+
+p = 0.15  →  N > (2.486 / 0.15)² = 274.7  →  N = 275</div>
+    <p><strong>The two answers differ, and both are reported.</strong> The inverse square root method asks what the smallest <em>main</em> path needs; the regression analysis asks what the <em>interaction</em> needs. The interaction is the harder test and the larger number, so <strong>395 governs</strong>.</p>
+
+    <hr>
+    <p><strong>The response-rate rows</strong> are the same calculation applied to a census of the frame, and the threshold is the rate that delivers 395:</p>
+    <div class="eq">n = 1,126 × response rate
+
+395 / 1,126 = 35.1%
+
+matched pairs:  1,126 × 0.42 × 0.70 = 331</div>
+    <p><strong>Software.</strong> Computed with the non-central F distribution. The same inputs in G*Power, under <em>Linear multiple regression: fixed model, R&sup2; increase</em>, with 1 tested predictor and 8 total, return the same figures.</p>
+    <p><strong>What is not claimed.</strong> These are a priori calculations on assumed effect sizes. They say what the design can detect, not what it will find. The observed effect sizes and the achieved power are reported once the data are in.</p>
+  </div>
 
   <h3 style="margin-top:30px">Analysis</h3>
   <div class="tablewrap" style="margin-top:12px">
